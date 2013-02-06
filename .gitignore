@@ -1,0 +1,52 @@
+# Ignore configuration files that may contain sensitive information.
+docroot/sites/*/settings*.php
+docroot/sites/*/settings_overrides.inc
+
+# IDE cache files.
+*.sublime-*
+.idea/*
+
+# Ignore paths that contain user-generated content.
+docroot/sites/*/files
+docroot/sites/*/private
+private_files/
+
+
+# Ignore path from sass cache for the admin theme
+.sass-cache/*
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+docroot/**.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Logs and databases #
+######################
+*.log
+*.sqlite
+*.sql
+
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Icon?
+Thumbs.db
+.scssc
