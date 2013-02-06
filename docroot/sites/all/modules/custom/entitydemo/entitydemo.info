@@ -1,0 +1,4 @@
+name = Entity Demo
+description = "Demonstrates common ways of interacting with Entities in Drupal. Including hooks and EntityFieldQuery."
+core = 7.x
+dependencies[] = entity

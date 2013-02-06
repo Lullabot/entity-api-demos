@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Demonstrates common ways of interacting with the entity system.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function entitydemo_menu() {
+  $items = array();
+  $items['demo'] = array(
+    'title' => 'Entity Demos',
+    'description' => 'List of entity demo\'s provided by this module.',
+    'access callback' => TRUE,
+    'page callback' => 'entitydemo_demos',
+    'menu_name' => 'navigation',
+    'file' => 'includes/entitydemo.demos.inc',
+  );
+  return $items;
+}
