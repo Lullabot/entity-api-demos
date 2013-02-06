@@ -17,5 +17,12 @@ function entitydemo_menu() {
     'menu_name' => 'navigation',
     'file' => 'includes/entitydemo.demos.inc',
   );
+  $items['demo/1'] = array(
+    'title' => 'Working with Existing Entities',
+    'description' => 'Demonstrates API functions that make it easier to work with exsiting entities.',
+    'access callback' => TRUE,
+    'page callback' => 'entitydemo_demo_1',
+    'file' => 'includes/entitydemo.demo1.inc',
+  );
   return $items;
 }
