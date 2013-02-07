@@ -33,3 +33,10 @@ function entitydemo_menu() {
   );
   return $items;
 }
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function entitydemo_query_random_alter($query) {
+  $query->orderRandom();
+}
