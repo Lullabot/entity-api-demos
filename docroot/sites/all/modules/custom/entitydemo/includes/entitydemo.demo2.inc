@@ -7,7 +7,7 @@
  * I need? I already know SQL/DBTNG why should I learn something else?
  *
  * Because the underlying architecture which you're querying against can change
- * via the click of a button in the UI. With tools like Field UI it's posible
+ * via the click of a button in the UI. With tools like Field UI it's possible
  * for an administrator or even another module to make changes to your
  * underlying schema which can easily break your custom SQL query.
  *
@@ -119,7 +119,7 @@ function entitydemo_demo_2() {
   // The results returned by EFQ can be ordered using any of the three methods
   // entityOrderBy(), propertyOrderBy() and fieldOrderBy(). Which like their
   // respective condition methods work on meta data, properties, and fields
-  // respectively. All three take an argument specifiying which
+  // respectively. All three take an argument specifying which
   // data/property/field to order on and a direction of either 'ASC' or 'DESC'.
   // The fieldOrderBy() method also expects a field name argument. The field
   // name and column arguments work just like those for the fieldCondition()
@@ -130,7 +130,7 @@ function entitydemo_demo_2() {
   //
   // Note: that propertyOrderBy() might not apply in all cases since properties
   // are unique to entity types and EFQ will throw an exception if you try and
-  // use propertyOrderBy() with an entity_type condition.
+  // use propertyOrderBy() without an entity_type condition.
   // $query->entityCondition('entity_type', 'node');
   $query->fieldOrderBy('field_number', 'value', 'DESC');
   $query_copy = $query;
@@ -148,7 +148,7 @@ function entitydemo_demo_2() {
   // been able to get that to ever actually contain a value. :/
 
   // Note that ordering by a field will limit the result to ONLY entities that
-  // have that field. For exmaple the image field here is only on node/article
+  // have that field. For example the image field here is only on node/article
   // entities and not users so users are excluded from the returned results.
   $query = $query_copy;
   $query->fieldOrderBy('field_image', 'alt');
@@ -263,7 +263,7 @@ function entitydemo_demo_2() {
 
   // --------------------------------------------------------------------------
   // Practical example.
-  // Combine it all togther and you can do something like this, which retrieves
+  // Combine it all together and you can do something like this, which retrieves
   // all article nodes posted in the last 6 months that are promoted to the
   // front page, ordered by the value in the field_number field.
   $query = new EntityFieldQuery();
@@ -287,7 +287,7 @@ function entitydemo_demo_2() {
   // For example, lets say we're dealing with code queries that will always
   // return nodes, that are published and are authored by the current user.
   // We're not worried about other entity types in our module, but we do want
-  // to be able to add addtional conditions. You can save your self a lot of
+  // to be able to add additional conditions. You can save your self a lot of
   // typing by extending the EFQ class and adding these always present options
   // to the constructor.
 
