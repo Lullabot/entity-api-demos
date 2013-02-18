@@ -1,0 +1,52 @@
+<?php
+/**
+ * @file
+ * Provides a simple custom entity type named 'video' for tracking embed codes.
+ */
+
+/**
+ * Implements hook_entity_info().
+ */
+function videoentity_entity_info() {
+  $info = array();
+  $info['video'] = array(
+    // Human readable label.
+    'label' => t('Video'),
+    'base table' => 'videoentity_video',
+    'entity keys' => array(
+      'id' => 'id',
+    ),
+  );
+  return $info;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function videoentity_menu() {
+  $items = array();
+  $items['videoentity'] = array(
+    'title' => 'Demo page',
+    'page callback' => 'videoentity_demo_page',
+    'access callback' => TRUE,
+    'menu' => 'navigation',
+  );
+  return $items;
+}
+
+/**
+ * Callback for /videoentity page.
+ *
+ * Just a place to test things out and be able to see the results on a page.
+ */
+function videoentity_demo_page() {
+  $video = entity_load('video', array(1));
+  kpr($video);
+
+  // Or load it with EFQ.
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'video');
+  $results = $query->execute();
+  kpr($results);
+  return 'hello there!';
+}
