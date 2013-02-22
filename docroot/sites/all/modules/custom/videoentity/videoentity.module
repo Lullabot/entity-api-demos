@@ -16,6 +16,19 @@ function videoentity_entity_info() {
     'entity keys' => array(
       'id' => 'id',
     ),
+    // Tell field api it can attach fields to our custom video entity.
+    'fieldable' => TRUE,
+    'bundles' => array(
+      'videoentity' => array(
+        'label' => t('Video'),
+        'admin' => array(
+          // NOTE: this still needs to be provided via hook_menu as well, it is provided here
+          // as a convenience for Field API so it knows where to attach it's forms.
+          'path' => 'admin/videoentity',
+          'access arguments' => array('administer video'),
+        ),
+      ),
+    ),
   );
   return $info;
 }
@@ -31,6 +44,18 @@ function videoentity_menu() {
     'access callback' => TRUE,
     'menu' => 'navigation',
   );
+  $items['admin/videoentity'] = array(
+    'title' => 'Video Entities',
+    'page callback' => 'videoentity_admin_page',
+    'access arguments' => array('administer video'),
+//    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/videoentity/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
   return $items;
 }
 
@@ -49,4 +74,25 @@ function videoentity_demo_page() {
   $results = $query->execute();
   kpr($results);
   return 'hello there!';
+}
+
+/**
+ * Page callback for admin/config/media/video.
+ */
+function videoentity_admin_page() {
+  return 'Add some fields to your video entities using the forms provided by Field API.';
+}
+
+/**
+ * Implements hook_permission().
+ *
+ * Used to illustrate using a custom permission to control access to an entities bundle.
+ */
+function videoentity_permission() {
+  return array(
+    'administer video' => array(
+      'title' => t('Administer video'),
+      'description' => t('Perform administrative tasks on video entities.'),
+    ),
+  );
 }
