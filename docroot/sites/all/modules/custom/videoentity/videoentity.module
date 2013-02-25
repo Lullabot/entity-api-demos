@@ -13,6 +13,7 @@ function videoentity_entity_info() {
     // Human readable label.
     'label' => t('Video'),
     'base table' => 'videoentity_video',
+    'controller class' => 'EntityAPIController',
     'entity keys' => array(
       'id' => 'id',
     ),
@@ -29,6 +30,9 @@ function videoentity_entity_info() {
         ),
       ),
     ),
+    // Add views support
+    'module' => 'videoentity',
+    'views controller class' => 'VideoEntityViewsController',
   );
   return $info;
 }
@@ -65,7 +69,7 @@ function videoentity_menu() {
  * Just a place to test things out and be able to see the results on a page.
  */
 function videoentity_demo_page() {
-  $video = entity_load('video', array(1));
+  $video = entity_load('videoentity', array(1));
   kpr($video);
 
   // Or load it with EFQ.
@@ -96,3 +100,15 @@ function videoentity_permission() {
     ),
   );
 }
+
+class VideoEntityViewsController extends EntityDefaultViewsController {
+  /**
+   *  Add extra fields to views_data().
+   */
+  public function views_data() {
+    $data = parent::views_data();
+    // Add your custom data here
+    return $data;
+  }
+}
+
