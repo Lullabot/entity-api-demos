@@ -24,6 +24,12 @@ function videoentity_schema() {
         'length' => '255',
         'not null' => TRUE,
       ),
+      'embedcode' => array(
+        'description' => 'The youtube embed code',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
       'created_at' => array(
         'description' => 'Date and time the video record was processed.',
         'type' => 'int',
@@ -46,4 +52,18 @@ function videoentity_schema() {
     'primary key' => array('id'),
   );
   return $schema;
+}
+
+/**
+ *  Adding the embedcode field to the videoentity_video table
+ */
+function videoentity_update_7000(&$sandbox) {
+  $embed = array(
+    'description' => 'The youtube embed code',
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+  );
+
+  db_add_field('videoentity_video', 'embedcode', $embed);
 }
