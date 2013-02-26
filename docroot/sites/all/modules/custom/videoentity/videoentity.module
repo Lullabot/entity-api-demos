@@ -15,6 +15,7 @@ function videoentity_entity_info() {
     'base table' => 'videoentity_video',
     'entity keys' => array(
       'id' => 'id',
+      'label' => 'name',
     ),
     // This is the default controller.
     //'controller class' => 'DrupalDefaultEntityController',
@@ -29,10 +30,14 @@ function videoentity_entity_info() {
     'controller class' => 'VideoEntityController',
      // The information below is used by the VideoEntityUIController (which extends the EntityDefaultUIController)
      'admin ui' => array(
-       'path' => 'admin/content/videoentity',
+       'path' => 'admin/videoentity',
        'controller class' => 'VideoEntityUIController',
        'menu wildcard' => '%videoentity',
+       'file' => 'videoentity.admin.inc',
      ),
+     'module' => 'videoentity',
+     // Controls who can access entity CRUD.
+     'access callback' => 'videoentity_access',
   );
   return $info;
 }
@@ -55,6 +60,32 @@ function videoentity_menu() {
     'access callback' => TRUE,
   );
   return $items;
+}
+
+/**
+ * Access callback for VideoEntity CRUD operations.
+ */
+function videoentity_access($op, $videoentity = NULL, $account = NULL) {
+  if ($op == 'view' && user_access('view videos', $account)) {
+    return TRUE;
+  }
+  else if (user_access('administer videos', $account)) {
+    return TRUE;
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function videoentity_permission() {
+  return array(
+    'administer videos' => array(
+      'title' => t('Administer Video Entities'),
+    ),
+    'view videos' => array(
+      'title' => t('View Video Entities'),
+    ),
+  );
 }
 
 /**
