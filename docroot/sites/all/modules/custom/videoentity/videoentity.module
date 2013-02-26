@@ -9,14 +9,20 @@
  */
 function videoentity_entity_info() {
   $info = array();
+  // Our custom video entity needs to be defined here.
+  // See http://drupal.org/node/1026420 and http://drupal.org/node/878804
+  // for more documentation.
   $info['video'] = array(
     // Human readable label.
     'label' => t('Video'),
+    // Table for storing entity data, defined in hook_schema().
     'base table' => 'videoentity_video',
+    // This helps Entity API know how to query your custom table.
     'entity keys' => array(
       'id' => 'id',
     ),
   );
+
   return $info;
 }
 
