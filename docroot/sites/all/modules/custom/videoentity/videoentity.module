@@ -21,18 +21,18 @@ function videoentity_entity_info() {
     'entity keys' => array(
       'id' => 'id',
     ),
-    // This is the default controller.
-    //'controller class' => 'DrupalDefaultEntityController',
-    // Other options provided by the EntityAPI contrib module which we'll be using later.
+    // These are the default controllers.
+    // 'entity class' => 'Entity',
+    'entity class' => 'VideoEntity',
+    // 'controller class' => 'DrupalDefaultEntityController',
+    // Other options provided by the EntityAPI contrib module:
     // 'controller class' => 'EntityAPIController ',
     // 'controller class' => 'EntityAPIControllerExportable',
-    'entity class' => 'VideoEntity',
-    // This is a uri function provided by the Entity contrib module.
-    // It's a simple wrapper around the uri method that needs to be implemented in the controller class.
-    'uri callback' => 'entity_class_uri',
-    // Here is our custom controller that we will provide below.
     'controller class' => 'VideoEntityController',
-     // The information below is used by the VideoEntityUIController (which extends the EntityDefaultUIController)
+    // This is a uri function provided by the Entity contrib module.
+    // It's a simple wrapper around the uri method in the controller class.
+    'uri callback' => 'entity_class_uri',
+     // The information below is used to extend the EntityDefaultUIController
      'admin ui' => array(
        'path' => 'admin/content/videoentity',
        'controller class' => 'VideoEntityUIController',
@@ -60,6 +60,7 @@ function videoentity_menu() {
     'page arguments' => array(1),
     'access callback' => TRUE,
   );
+
   return $items;
 }
 
@@ -101,6 +102,9 @@ function videoentity_view_entity($video) {
 
 /**
  * Our custom entity class.
+ *
+ * The Entity class we're overriding is in
+ * sites/all/modules/contrib/entity/includes/entity.inc
  */
 class VideoEntity extends Entity {
   /**
@@ -114,8 +118,11 @@ class VideoEntity extends Entity {
 /**
  * Our custom controller for the videoentity type.
  *
- * We're choosing to extend the controller provided by the entity module so that we'll have
+ * We're choosing to extend the controller provided by the entity module for
  * full CRUD support for videoentities.
+ *
+ * The EntityAPIController is found in
+ * sites/all/modules/contrib/entity/includes/entity.controller.inc
  */
 class VideoEntityController extends EntityAPIController {
 
@@ -123,6 +130,9 @@ class VideoEntityController extends EntityAPIController {
 
 /**
  * Our custom controller for the admin ui.
+ *
+ * The EntityDefaultUIController can be found in
+ * sites/all/modules/contrib/entity/includes/entity.ui.inc
  */
 class VideoEntityUIController extends EntityDefaultUIController {
 
