@@ -16,6 +16,23 @@ function videoentity_entity_info() {
     'entity keys' => array(
       'id' => 'id',
     ),
+    // This is the default controller.
+    //'controller class' => 'DrupalDefaultEntityController',
+    // Other options provided by the EntityAPI contrib module which we'll be using later.
+    // 'controller class' => 'EntityAPIController ',
+    // 'controller class' => 'EntityAPIControllerExportable',
+    'entity class' => 'VideoEntity',
+    // This is a uri function provided by the Entity contrib module.
+    // It's a simple wrapper around the uri method that needs to be implemented in the controller class.
+    'uri callback' => 'entity_class_uri',
+    // Here is our custom controller that we will provide below.
+    'controller class' => 'VideoEntityController',
+     // The information below is used by the VideoEntityUIController (which extends the EntityDefaultUIController)
+     'admin ui' => array(
+       'path' => 'admin/content/videoentity',
+       'controller class' => 'VideoEntityUIController',
+       'menu wildcard' => '%videoentity',
+     ),
   );
   return $info;
 }
@@ -31,7 +48,21 @@ function videoentity_menu() {
     'access callback' => TRUE,
     'menu' => 'navigation',
   );
+  $items['video/%videoentity'] = array(
+    'title' => 'Video',
+    'page callback' => 'videoentity_view_entity',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+  );
   return $items;
+}
+
+/**
+ * Menu autoloader for /video.
+ */
+function videoentity_load($id) {
+  $video = entity_load('video', array($id));
+  return array_pop($video);
 }
 
 /**
@@ -49,4 +80,44 @@ function videoentity_demo_page() {
   $results = $query->execute();
   kpr($results);
   return 'hello there!';
+}
+
+/**
+ * Callback for /video/ID page.
+ *
+ * Just a place to render a complete video entity.
+ */
+function videoentity_view_entity($video) {
+  $video_entity = entity_view('video', array($video->id => $video));
+  kpr($video_entity);
+  return 'Hello Cowboy';
+}
+
+/**
+ * Our custom entity class.
+ */
+class VideoEntity extends Entity {
+  /**
+   * Override this in order to implement a custom default URI.
+   */
+  protected function defaultUri() {
+    return array('path' => 'video/' . $this->identifier());
+  }
+}
+
+/**
+ * Our custom controller for the videoentity type.
+ *
+ * We're choosing to extend the controller provided by the entity module so that we'll have
+ * full CRUD support for videoentities.
+ */
+class VideoEntityController extends EntityAPIController {
+
+}
+
+/**
+ * Our custom controller for the admin ui.
+ */
+class VideoEntityUIController extends EntityDefaultUIController {
+
 }
