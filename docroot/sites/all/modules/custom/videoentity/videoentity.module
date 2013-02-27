@@ -20,7 +20,9 @@ function videoentity_entity_info() {
     // This helps Entity API know how to query your custom table.
     'entity keys' => array(
       'id' => 'id',
+      'label' => 'name',
     ),
+    'uri callback' => 'entity_class_uri',
     // These are the default controllers.
     // 'entity class' => 'Entity',
     'entity class' => 'VideoEntity',
@@ -31,7 +33,6 @@ function videoentity_entity_info() {
     'controller class' => 'VideoEntityController',
     // This is a uri function provided by the Entity contrib module.
     // It's a simple wrapper around the uri method in the controller class.
-    'uri callback' => 'entity_class_uri',
      // The information below is used to extend the EntityDefaultUIController
      'admin ui' => array(
        'path' => 'admin/content/videoentity',
