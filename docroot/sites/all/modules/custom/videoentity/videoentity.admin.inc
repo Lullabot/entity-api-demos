@@ -29,6 +29,8 @@ function video_form($form, &$form_state, $video = NULL) {
     '#required' => TRUE,
   );  
 
+  field_attach_form('video', $video, $form, $form_state);
+
   $form['actions'] = array(
     '#type' => 'actions',
     'submit' => array(

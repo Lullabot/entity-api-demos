@@ -43,6 +43,17 @@ function videoentity_entity_info() {
      'module' => 'videoentity',
      // Access callback to determine permisisons.
      'access callback' => 'videoentity_access_callback',
+     // Tell FieldAPI that fields can be attached to our video entity
+     'fieldable' => TRUE,
+     'bundles' => array(
+        'video' => array(
+          'label' => t('Video'),
+          'admin' => array(
+            'path' => 'admin/videoentity',
+            'access arguments' => array('administer video'),
+          ),
+        ),
+      ),
   );
 
   return $info;
