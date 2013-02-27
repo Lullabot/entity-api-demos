@@ -127,9 +127,10 @@ function videoentity_demo_page() {
  * Just a place to render a complete video entity.
  */
 function videoentity_view_entity($video) {
+  drupal_set_title($video->name);
   $video_entity = entity_view('video', array($video->id => $video));
   kpr($video_entity);
-  return 'Hello Cowboy';
+  return $video_entity;
 }
 
 /**
@@ -157,6 +158,38 @@ class VideoEntity extends Entity {
  * sites/all/modules/contrib/entity/includes/entity.controller.inc
  */
 class VideoEntityController extends EntityAPIController {
+
+  public function buildContent($entity, $view_mode = 'full', $langcode = NULL, $content = array()) {
+    $build = parent::buildContent($entity, $view_mode, $langcode, $content);
+
+    $build['duration'] = array(
+      '#type' => 'markup',
+      '#markup' => format_interval($entity->duration),
+    );
+
+    $build['embedcode'] = array(
+      '#type' => 'markup',
+      '#markup' => '<iframe width="560" height="315" src="http://www.youtube.com/embed/'. $entity->embedcode . '" frameborder="0" allowfullscreen></iframe>',
+    );
+
+    return $build;
+  }
+
+  /**
+   * Override save method.
+   *
+   * Populate created and updated dates automatically.
+   */
+  public function save($entity, DatabaseTransaction $transaction = NULL) {
+
+    if (isset($entity->is_new)) {
+      $entity->created_at = REQUEST_TIME;
+    }
+
+    $entity->updated_at = REQUEST_TIME;
+
+    return parent::save($entity, $transaction);
+  }
 
 }
 
