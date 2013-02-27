@@ -54,6 +54,7 @@ function videoentity_entity_info() {
           ),
         ),
       ),
+     'views controller class' => 'EntityDefaultViewsController',
   );
 
   return $info;
