@@ -22,6 +22,8 @@ function videoentity_entity_info() {
       'id' => 'id',
       'label' => 'name',
     ),
+    // This is a uri function provided by the Entity contrib module.
+    // It's a simple wrapper around the uri method in the controller class.
     'uri callback' => 'entity_class_uri',
     // These are the default controllers.
     // 'entity class' => 'Entity',
@@ -31,14 +33,16 @@ function videoentity_entity_info() {
     // 'controller class' => 'EntityAPIController ',
     // 'controller class' => 'EntityAPIControllerExportable',
     'controller class' => 'VideoEntityController',
-    // This is a uri function provided by the Entity contrib module.
-    // It's a simple wrapper around the uri method in the controller class.
      // The information below is used to extend the EntityDefaultUIController
      'admin ui' => array(
-       'path' => 'admin/content/videoentity',
+       'path' => 'admin/videoentity',
        'controller class' => 'VideoEntityUIController',
        'menu wildcard' => '%videoentity',
+       'file' => 'videoentity.admin.inc',
      ),
+     'module' => 'videoentity',
+     // Access callback to determine permisisons.
+     'access callback' => 'videoentity_access_callback',
   );
 
   return $info;
@@ -63,6 +67,33 @@ function videoentity_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function videoentity_permission() {
+  return array(
+    'administer videos' => array(
+      'title' => t('Administer Video Entities'),
+    ),
+    'view videos' => array(
+      'title' => t('View Video Entities'),
+    ),
+  );
+}
+
+/**
+ * Check access permissions for video entities.
+ */
+function videoentity_access_callback($op, $videoentity = NULL, $account = NULL) {
+  if (($op == 'view' && user_access('view videos', $account)) || user_access('administer videos', $account)) {
+    return TRUE;
+  }
+  else if (user_access('administer videos', $account)) {
+    return TRUE;
+  }
+  return FALSE;
 }
 
 /**
