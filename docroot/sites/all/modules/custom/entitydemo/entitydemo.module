@@ -24,5 +24,19 @@ function entitydemo_menu() {
     'page callback' => 'entitydemo_demo_1',
     'file' => 'includes/entitydemo.demo1.inc',
   );
+  $items['demo/2'] = array(
+    'title' => 'EntityFieldQuery',
+    'description' => 'Demonstrates using EntityFieldQuery to find data.',
+    'access callback' => TRUE,
+    'page callback' => 'entitydemo_demo_2',
+    'file' => 'includes/entitydemo.demo2.inc',
+  );
   return $items;
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function entitydemo_query_random_alter($query) {
+  $query->orderRandom();
 }
