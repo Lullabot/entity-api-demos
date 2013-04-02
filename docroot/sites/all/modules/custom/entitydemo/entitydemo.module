@@ -40,3 +40,56 @@ function entitydemo_menu() {
 function entitydemo_query_random_alter($query) {
   $query->orderRandom();
 }
+
+/**
+ * Implements hook_node_view().
+ */
+function entitydemo_node_view($node) {
+  dsm($node, 'node');
+
+  // Standard way of accessing the value of a field attached to a node.
+  dsm($node->field_number[LANGUAGE_NONE][0]['value']);
+
+  // "Wrapping" an entity with a metadata wrapper.
+  $node_wrapper = entity_metadata_wrapper('node', $node);
+
+  // Accessing the value of a field via the metadata wrapper.
+  dsm($node_wrapper->field_number->value());
+
+  // Setting the value of the field with the metadata wrapper.
+  $node_wrapper->field_number->set(42);
+  $node_wrapper->save();
+
+  // Accessing the value of the property from a referenced entity via a
+  // metadata wrapper.
+  dsm($node_wrapper->author->mail->value(), 'email address of author');
+
+  // Using the getPropertyInfo() method to perform introspection on the metadata
+  // wrapper and find out more about the entity/field/property.
+  dsm($node_wrapper->author->getPropertyInfo());
+
+  foreach ($node_wrapper->field_tags->getIterator() as $tag) {
+    dsm($tag->getPropertyInfo());
+    dsm($tag->label(), 'tag name');
+  }
+
+  // Accessing an entities label property via a consistent label method.
+  dsm($node_wrapper->label(), 'node label');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

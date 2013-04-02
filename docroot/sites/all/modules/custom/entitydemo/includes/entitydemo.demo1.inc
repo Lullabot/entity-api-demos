@@ -7,7 +7,7 @@
 function entitydemo_demo_1() {
   $output = array();
   // Given an $id and $type, load an entity.
-  $id = 5;
+  $id = 75;
   $types = array('node', 'user', 'comment');
   foreach ($types as $entity_type) {
     // Load the entity of a specific type with the ID of 5.
@@ -22,7 +22,7 @@ function entitydemo_demo_1() {
     // Using $entity->type property is a common convention and you should feel
     // pretty safe using that.
     $output[] = array(
-      '#markup' => t('<p>The entity type is: %type</p>', array('%type' => $entity->type)),
+      '#markup' => t('<p>The entity type is: %type</p>', array('%type' => $entity_type)),
     );
 
     // Determine more information.
@@ -42,6 +42,10 @@ function entitydemo_demo_1() {
       '#markup' => kpr($entity, TRUE),
     );
   }
+
+  $video = entity_load_single('video', 4);
+  $wrapper = entity_metadata_wrapper('video', $video);
+  dsm($wrapper->duration->value());
 
   return $output;
 }
