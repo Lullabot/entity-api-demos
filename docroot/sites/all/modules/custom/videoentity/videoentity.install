@@ -18,14 +18,15 @@ function videoentity_schema() {
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
+      'revision_id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
+        'description' => 'The ID of the video\'s default revision.',
+      ),
       'name' => array(
         'description' => 'Human readable name of the video.',
-        'type' => 'varchar',
-        'length' => '255',
-        'not null' => TRUE,
-      ),
-      'embedcode' => array(
-        'description' => 'The youtube embed code',
         'type' => 'varchar',
         'length' => '255',
         'not null' => TRUE,
@@ -42,6 +43,31 @@ function videoentity_schema() {
         'length' => 10,
         'not null' => FALSE,
       ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  $schema['videoentity_video_revision'] = array(
+    'description' => t('Video entity revisions'),
+    'fields' => array(
+      'revision_id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique revision ID.',
+      ),
+      'id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
+        'description' => 'The ID of the attached entity.',
+      ),
+      'embedcode' => array(
+        'description' => 'The youtube embed code',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
       'duration' => array(
         'description' => 'Length of the video, in seconds.',
         'type' => 'int',
@@ -49,8 +75,9 @@ function videoentity_schema() {
         'default' => 0,
       ),
     ),
-    'primary key' => array('id'),
+    'primary key' => array('revision_id'),
   );
+
   return $schema;
 }
 

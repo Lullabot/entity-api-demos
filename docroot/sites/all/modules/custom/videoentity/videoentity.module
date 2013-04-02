@@ -17,10 +17,13 @@ function videoentity_entity_info() {
     'label' => t('Video'),
     // Table for storing entity data, defined in hook_schema().
     'base table' => 'videoentity_video',
+    // Table for storing revision data.
+    'revision table' => 'videoentity_video_revision',
     // This helps Entity API know how to query your custom table.
     'entity keys' => array(
       'id' => 'id',
       'label' => 'name',
+      'revision' => 'revision_id',
     ),
     // This is a uri function provided by the Entity contrib module.
     // It's a simple wrapper around the uri method in the controller class.
@@ -133,6 +136,13 @@ function videoentity_menu() {
     'page arguments' => array(1),
     'access callback' => TRUE,
   );
+  $items['video/%videoentity/%'] = array(
+    'title' => 'Video revision',
+    'load arguments' => array(2),
+    'page callback' => 'videoentity_view_revision',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+  );
 
   return $items;
 }
@@ -167,9 +177,15 @@ function videoentity_access_callback($op, $videoentity = NULL, $account = NULL) 
 /**
  * Menu autoloader for /video.
  */
-function videoentity_load($id) {
-  $video = entity_load('video', array($id));
-  return array_pop($video);
+function videoentity_load($id, $revision_id = NULL) {
+  if (!is_null($revision_id)) {
+    $video = entity_revision_load('video', $revision_id);
+    return $video;
+  }
+  else {
+    $video = entity_load('video', array($id));
+    return array_pop($video);
+  }
 }
 
 /**
@@ -199,6 +215,17 @@ function videoentity_view_entity($video) {
   $video_entity = entity_view('video', array($video->id => $video), 'member');
   kpr($video_entity);
   return $video_entity;
+}
+
+/**
+ * Callback for /video/ID/REVISION_ID.
+ *
+ * Just display the specified revision.
+ */
+function videoentity_view_revision($video) {
+  $output = videoentity_view_entity($video);
+  drupal_set_title(t('@title revision @id', array('@title' => $video->name, '@id' => $video->revision_id)));
+  return $output;
 }
 
 /**
@@ -263,6 +290,9 @@ class VideoEntityController extends EntityAPIController {
     }
 
     $entity->updated_at = REQUEST_TIME;
+
+    // Always save new revisions.
+    $entity->is_new_revision = TRUE;
 
     return parent::save($entity, $transaction);
   }
