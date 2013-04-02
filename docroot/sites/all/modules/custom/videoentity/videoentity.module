@@ -178,7 +178,7 @@ function videoentity_access_callback($op, $videoentity = NULL, $account = NULL) 
  * Menu autoloader for /video.
  */
 function videoentity_load($id, $revision_id = NULL) {
-  if (!is_null($revision_id)) {
+  if (is_numeric($revision_id)) {
     $video = entity_revision_load('video', $revision_id);
     return $video;
   }
