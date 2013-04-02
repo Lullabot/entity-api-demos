@@ -72,6 +72,51 @@ function videoentity_entity_info() {
 }
 
 /**
+ * Implements hook_entity_property_info().
+ */
+function videoentity_entity_property_info() {
+  $info = array();
+  $properties = &$info['video']['properties'];
+  $properties['id'] = array(
+    'label' => t('Video ID'),
+    'description' => t('The uniquie ID of the video.'),
+    'type' => 'integer',
+    'schema field' => 'id',
+  );
+  $properties['name'] = array(
+    'label' => t('Name'),
+    'description' => t('Name of the video'),
+    'type' => 'text',
+    'schema field' => 'name',
+  );
+  $properties['embedcode'] = array(
+    'label' => t('Embedcode'),
+    'description' => t('YouTube embedcode for the video'),
+    'type' => 'text',
+    'schema field' => 'embedcode',
+  );
+  $properties['created_at'] = array(
+    'label' => t('Created date'),
+    'description' => t('Date the video was created'),
+    'type' => 'date',
+    'schema field' => 'created_at',
+  );
+  $properties['updated_at'] = array(
+    'label' => t('Updated date'),
+    'description' => t('Date the video last updated'),
+    'type' => 'date',
+    'schema field' => 'updated_at',
+  );
+  $properties['duration'] = array(
+    'label' => t('Duration'),
+    'description' => t('The duration of the video in seconds'),
+    'type' => 'integer',
+    'schema field' => 'duration',
+  );
+  return $info;
+}
+
+/**
  * Implements hook_menu().
  */
 function videoentity_menu() {
